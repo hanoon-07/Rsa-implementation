@@ -39,6 +39,17 @@ def generate_public_exponent(p, q, attempts=1000):
             return a
 
     raise f"Failed to generate public exponent for p={p} and q={q}. Attempted {attempts} times."
+
+
+def compute_private_exponent(a, p, q):
+    phi = (p - 1) * (q - 1)
+
+    gcd, b, _ = egcd.egcd(a, phi)
+    assert(abs(gcd) == 1)
+
+    if b < 0:
+        return b + phi
+    return b
     
         
 
