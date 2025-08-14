@@ -44,8 +44,8 @@ def generate_public_exponent(p, q, attempts=1000):
 def compute_private_exponent(a, p, q):
     phi = (p - 1) * (q - 1)
 
-    gcd, b, _ = egcd.egcd(a, phi)
-    assert(abs(gcd) == 1)
+    gcd, b, k= egcd.egcd(a, phi) #k is not used, but egcd gives solution a⋅x+b⋅y=gcd(a,b) along with x and y
+    assert(abs(gcd) == 1) #just for safety can be removed
 
     if b < 0:
         return b + phi
