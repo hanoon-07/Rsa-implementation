@@ -24,6 +24,21 @@ def generate_prime_factors(factor_bits=1024, min_factor_delta_bits=256, attempts
         q = generate_large_prime(factor_bits, attempts)
         if abs(p - q).bit_length() >= min_factor_delta_bits:
             return p, q
+        
+def generate_public_exponent(p, q, attempts=1000):
+    euler_totient = (p - 1) * (q - 1)
+
+    for _ in range(attempts):
+        a = generate_random_number(euler_totient.bit_length())
+
+        if a <= 1 or a >= euler_totient:
+            continue
+
+        gcd, _, _ = egcd.egcd(a, euler_totient)
+        if gcd == 1:
+            return a
+
+    raise f"Failed to generate public exponent for p={p} and q={q}. Attempted {attempts} times."
     
         
 
